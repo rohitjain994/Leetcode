@@ -5,25 +5,33 @@
 #         self.next = next
 class Solution:
     def nextLargerNodes(self, head: ListNode) -> List[int]:
+        #Result Array 
         res = [0]
-        arr = []
+        #reverse List
         cur = head
+        prv = None
         while cur:
-            arr.append(cur.val)
-            cur = cur.next
-        stack = [arr[-1]]
-        for i in range(len(arr)-2,-1,-1):
+            next = cur.next
+            cur.next = prv
+            prv = cur
+            cur = next
+        cur = prv
+        #stack
+        stack = [cur.val]
+        cur = cur.next
+        while cur:
             # print(arr[i])
-            if stack[-1] > arr[i]:
+            if stack[-1] > cur.val:
                 res.append(stack[-1])
             else:
-                while len(stack) > 0 and stack[-1] <= arr[i]:
+                while len(stack) > 0 and stack[-1] <= cur.val:
                     stack.pop()
                 if len(stack) == 0:
                     res.append(0)
                 else:
                     res.append(stack[-1])
-            stack.append(arr[i])
+            stack.append(cur.val)
+            cur = cur.next
         return res[::-1]
         
         # Brute Force n^2
