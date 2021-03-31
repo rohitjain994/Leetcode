@@ -1,3 +1,4 @@
+#single list
 def nextGreator(arr: List[int]) -> List[int]:
     stack = [arr[0]]
     res = []
@@ -13,3 +14,15 @@ def nextGreator(arr: List[int]) -> List[int]:
         res.append(-1)
         stack.pop()
     return res
+#Circular List 
+class Solution:
+    def nextGreaterElements(self, nums: List[int]) -> List[int]:
+        stack = []
+        n = len(nums)
+        res = [-1]*n
+        for i in range(2*n-1,-1,-1):
+            while len(stack)>0 and nums[stack[-1]]<=nums[i%n]:
+                stack.pop()
+            res[i%n] = -1 if len(stack)==0 else nums[stack[-1]]
+            stack.append(i%n)
+        return res
