@@ -3,7 +3,7 @@
 # Explanation: movieDurations[0] + movieDurations[6] = 90 + 125 = 215 is the maximum number within 220 (250min - 30min)ˀ
 
 def flightdetails(movies: list,duration : int) -> list:
-    sort(movies)
+    movies = sorted(movies)
     l = 0
     r = len(movies)
     max_val = 0
