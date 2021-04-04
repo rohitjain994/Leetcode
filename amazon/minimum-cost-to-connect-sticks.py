@@ -1,3 +1,4 @@
+import heapq
 def connect(nums):
     li = []
     cost = 0
@@ -14,3 +15,5 @@ def connect(nums):
 # cost = 4 , li = 4,5,8
 # cost = 4+9 = 13 , li = 8,9
 # cost = 4+9+17 = 30 , li = 30
+# SImilar to connect ropes to minimise the cost leetcode
+# https://www.geeksforgeeks.org/connect-n-ropes-minimum-cost/
