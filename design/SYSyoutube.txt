@@ -1,0 +1,114 @@
+Rate limiting system design:
+----------------------------------------------------------------------
+Scene 1 : application server face DDOS attack 
+Scene 2 : Developer consume product APIs and limit them as it costs
+
+Concepts:
+Latency and availablity for consuption to other
+Security 
+OPerational Cost 
+
+Methods:
+- User: limit user counts
+- Concurrent : parrallel seesion 
+- Location/IP : target only specific locations
+- Server : serve only specific type of requests 
+
+Algo: 
+SIngle server algos 
+
+- Token bucket (5 Request/ min ): [uID timestamp uCount ] (Redis)
+    opr : Fetch, Update
+
+timedelta = datetime.now() - timestamp
+def gotask() 
+    if timestamp < 5 and ucount < 5:
+        serve request
+        timestamp = datetime.npw()
+        ucount -=1
+    else:
+        timestamp = date.now()
+        ucount = 5
+        gotask()
+
+problem : Race condition
+Solution :
+* Leaky bucket (FIFO) Queue of fixed size
+Rate limit with overflow condition 
+
+- Fixed win counter:
+[uid+timestamp(min) ucount]
+
+problem : oveloading in last sec of previous min and starting sec of current min
+Sol : 
+* sliding logs :
+[uid list(timestamp)]
+Update : remove entities older then request rate like 10r/m array size of 10 
+        First remove then update
+
+- sliding win counter
+[uid list(timestamp,counter)]
+similar to sliding logs
+
+
+Distributed servers : centeralised cache/DB ( Redis / Cassandra )
+Problems : 
+- Inconsistency : sticky session at LB (cons : not fault torent, not well balanced)
+- Race condition : Locks (cons Latency)
+
+Turn around 
+
+Relaxing Rate limit : rate limeit +- delta 
+Local server + sync server 
+
+==============================================================================================================================
+Twitter Design 
+-------------------------------------------------
+https://github.com/donnemartin/system-design-primer/tree/master/solutions/system_design/twitter
+
+
+Tweet 
+Timelines : Home user search 
+trends
+
+characterstics: 
+
+300M + user 600 writes/s 60000000 reads/s 
+
+read heavy 
+eventual consistemcy 
+storage : word limit 140 words 
+
+Redis + DB 
+USer table | Tweet Table | follower table
+one to many relation 
+
+Redis DS (Redis List [Lpush,Lpop,Lrange,Ltrim])
+<uid>-tweet : [1,2,...]
+<uid>-follower: [1,2,3,...]
+
+User Timeline 
+<uid>-usertweet : [tid0,tid1]
+<tid>-tweet : "hey"
+
+Home Timeline 
+get followers -> get latest tweet -> merge and sort by date
+fanout approach : push user tweet to home timeline redis of follower
+        bottleneck with celebrity user 
+
+    for celebrity user : check celebrity list of follwer and push the user timelines tweet to hometimeline redis of follower
+
+#Trends
+frequency 
+apache strom / heron 
+
+pending....
+
+====================================================================================================================================
+URER
+------------------------------------------------------------------------------------------------------------------------------------
+uber service oriented architecture
+supply = Cabs 
+Demand = Rider
+
+====================================================================================================================================

@@ -1,0 +1,16 @@
+Python Libs 
+
+1. Heap 
+import heapq
+li = []
+heapify(li)
+heappush(li,val)
+heappop(li)
+heappushpop(li,val) -> first push then pop 
+heappreplace(li,val) -> first pop then push 
+nlargest(k,li,key=func)
+nsmallest(k,li,key=func)
+
+2. collections 
+defaultdict(type)
+

@@ -1,0 +1,144 @@
+https://refactoring.guru/design-patterns/python
+
+Design pattern
+1. Creational 
+2. Structural 
+3. Behavioural
+
+Creational Design pattern
+1. abstract Factory
+2. Prototype
+3. Singleton 
+4. Builder
+5. Factory Method
+
+Structural Design pattern
+1. Adapter 
+2. Bridge
+3. Proxy 
+4. Facade
+5. composite 
+6. Decorator
+7. Flyweight
+
+Behavioural Design Pattern 
+1. Chain of responsiblity 
+2. Iterator 
+3. command
+4. Mediator
+5. Observer 
+6. Strategy 
+7. State 
+8. Memento 
+9. Vistor 
+10. Template Menthod
+
+
+1. Singleton pattern : Antipattern 
+A class should have single object 
+Python implementation 
+https://refactoring.guru/design-patterns/singleton/python/example#example-0
+There are various methods that can help to implement singleton class like base , decorator , metaclass 
+using metaclass 
+class SingletonMeta(type):
+    _instances = {}
+    def __call__(cls, *args, **kwargs):
+        if cls not in _instances:
+            instance = super().__call__(*args, **kwargs)
+            cls._instances[cls] = instance
+        return cls._instances[cls]
+class Singleton(metaclass = SingletonMeta()):
+    def business_logic(self):
+
+if __name__ == "__main__:
+    s1 = Singleton()
+    s2 = Singleton()
+    if id(s1) == id(s2):
+        print("both contain same instance")
+    else: 
+        print("failed")
+
+Thread safe 
+from threading import Lock, Thread
+class SingletonMeta(type):
+    _instances = {}
+    _lock : Lock = Lock()
+    def __call__(cls, *args, **kwargs):
+        with cls._lock:
+            if cls not in _instances:
+                instance = super().__call__(*args,**kwargs)
+                cls._instances[cls] = instance
+            return cls._instances[cls]
+class Singleton(metaclass=SingletonMeta):
+    value: str = None
+    def __init__(self,value:str) -> None :
+        self.value = value
+    def buisness_logic(self):
+
+def test_singleton(value:str)->None:
+    singleton = Singleton(value)
+    print(Singleton.value)
+
+if __name__ == "__main__":
+    p1 = Thread(target=test_singleton,args=("Foo"))
+    p2 = Thread(target=test_singleton,args=("BAR))
+    p1.start()
+    p2.start()
+
+Pros:
+Cons:
+
+2. Factory Method:
+provide a interface in superclass such that subclass can alter return type of object. 
+Superclass is a interface/base class where subclass is inherited it property with altering return type of object.
+https://refactoring.guru/design-patterns/factory-method/python/example#lang-features
+
+using baseclass
+from abc import ABC, abstractmethod
+# creator interface
+class Creator(ABC):
+    def factory_method(self):
+        pass
+    def some_operation(self) -> str:
+        product = self.factory_method()
+        result = f"creator : creator code worked with operation of {product.operation()}"
+        return result
+
+# Product Innterface
+class Product(ABC):
+    def operation(self) -> str:
+        pass
+
+# implementation of creator interface
+class ConcreatCreator1(Creator):
+    def factory_method(self) -> Product:
+        return ConcreatProduct1()
+class ConcreatCreator2(Creator):
+    def factory_method(self) -> Product:
+        return ConcreatProduct2()
+
+# implementation of product interface
+class ConcreatProduct1(Product):
+    def operation(self) -> str:
+        return "Result of ConcreatProduct1"
+class ConcreatProduct2(Product):
+    def operation(self) -> str:
+        return "Result of ConcreatProduct2"
+
+def client(creator : Creator) -> None :
+    print(f"I am not aware of creator class but it still works"
+          f"{creator.some_operation()}")
+
+if __name__ == "__main__":
+    client(ConcreatCreator1())
+    client(ConcreatCreator2())
+
+pros : 
+- no tight coupling 
+- open/close principle
+- single responsiblity principle
+
+cons:
+- so many subclassess 
+- Heirarchy of code
+

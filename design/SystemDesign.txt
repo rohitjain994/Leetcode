@@ -1,0 +1,78 @@
+LLD -> Low Level Design  Code 
+HLD -> High Level Design Architecture Diagram
+
+1. Scalablity:
+    Horizonal scaling : scaling resources parrallel to existing servers with same clone or AMI (AWS: ASG)
+    Vertical Scaling : scale exiting server by changing it's compute like CPU, memory, Disk
+    CLone : cloning golden image/OS  without carrying session /cache / profile info on server instead of that on external DB / Cache
+    Database : denormalisation since starting , no joins query swtich to nosql db like mongodb perform inline code joins , scalalable DB, Slow queries lead to into of cache
+    Cache : (in-memory cahche)  application server -> cache (in memory : Redis ) -> DB 
+            cache DB queries
+            cache objects
+    Async : keep high compute task as precomputed or keep dynamic contect to static and store them in AWS S3 , CDN 
+            send job -> queue -> task processing -> Singal/ Notify User
+            frontend poller -> send job -> task processing -> Task completed
+
+Performance vs scalablity 
+Performance lag means server is not capable to handle single user 
+Scalablity lag means server is capable to handling single user but not heavy load
+
+Latency vs throughput 
+Latency is the time to perform some task or produce some result
+Throught is the numbers of such actions or result perform in unit time
+high throughput with acceptable latency 
+
+availablity vs consitency  
+
+
+
+Reverse Proxy:
+forward proxy vs Reverse Proxy 
+- forward proxy proxies on behalf of client
+- every request from client is fowarded to proxy server
+- it acts as gateway for internet for client
+where,
+- Reverse Proxy proxies on behalf of server
+- it acts as loadbalancer for servers behind the proxy server
+- enhance security
+- request from client lands on proxy server first before reaching it to server.
+
+reverse proxy vs loadbalancer
+loadbalancer is useful when you have multiple servers and requirement to distribute load.
+reverse proxy is useful even with single servers with benefits:
+- enhanced security 
+- flexiblity and scalablity 
+- ssl termination 
+- compression 
+- static content 
+- cahching
+
+apps : Nginx & HAproxy both help for reverse proxy and loadbalancer
+cons :
+- complex architecture 
+- single point of faliure 
+
+
+SQL vs NoSQL
+SQL : 
+- rigid datastr / structured data 
+- Tabular str
+- strict schema 
+- Relational data 
+- complex joins 
+- Transaction 
+- clear format and scaling 
+- lookup by index 
+- comunity support
+
+NoSQL : 
+- nested datastr and varying record template
+- Doc format 
+- semi structured data 
+- dynamic/flexible scheam 
+- non relational 
+- no complex joins 
+- store TB / PB data 
+- data intensive work load 
+- high throughput IOPs
+sample data for nosql 
