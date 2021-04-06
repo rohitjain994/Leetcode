@@ -13,4 +13,6 @@ nsmallest(k,li,key=func)
 
 2. collections 
 defaultdict(type)
+counter(list)
+OrderedDict(type)
 
