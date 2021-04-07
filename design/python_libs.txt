@@ -16,3 +16,5 @@ defaultdict(type)
 counter(list)
 OrderedDict(type)
 
+3. enumerate 
+ https://www.geeksforgeeks.org/enumerate-in-python/
