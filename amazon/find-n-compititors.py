@@ -1,13 +1,13 @@
 import collections
 def findNcompititors(numCompetitors,topNCompetitors,competitors,numReviews,reviews):
-    dt = collections.defaultdict(int)
-    for i in competitors:
-        dt[i] = 0
+    dt = collections.defaultdict(int,{i for i in competitors})
+    # for i in competitors:
+    #     dt[i] = 0
     for review in reviews:
-        temp = review.lower()
-        #print(temp)
+        # temp = review.lower()
+        # #print(temp)
         for i in competitors:
-            if i in temp:
+            if i in review.lower():
                 dt[i]+=1
                 break
     print(dt)
